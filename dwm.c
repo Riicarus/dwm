@@ -204,6 +204,8 @@ static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
+static void shiftview(const Arg *arg);
+static void shifttag(const Arg *arg);
 static void showhide(Client *c);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
@@ -1643,6 +1645,40 @@ setup(void)
 	XSelectInput(dpy, root, wa.event_mask);
 	grabkeys();
 	focus(NULL);
+}
+
+void
+shiftview(const Arg *arg) {
+	Arg shifted;
+
+	if(arg->i > 0) /* left circular shift */
+		shifted.ui = (selmon->tagset[selmon->seltags] << arg->i)
+		   | (selmon->tagset[selmon->seltags] >> (LENGTH(tags) - arg->i));
+
+	else /* right circular shift */
+		shifted.ui = selmon->tagset[selmon->seltags] >> (- arg->i)
+		   | selmon->tagset[selmon->seltags] << (LENGTH(tags) + arg->i);
+
+	view(&shifted);
+}
+
+void
+shifttag(const Arg *arg) {
+	Arg shifted;
+	Client *c;
+
+	if (!selmon->sel)
+		return;
+	c = selmon->sel;
+
+	if (arg->i > 0) /* left circular shift */
+		shifted.ui = (c->tags ^ (c->tags << arg->i)) 
+			^ (c->tags >> (LENGTH(tags) - arg->i));
+	else /* right circular shift */
+		shifted.ui = (c->tags ^ (c->tags >> (-arg->i)))
+			^ (c->tags << (LENGTH(tags) + arg->i));
+
+	toggletag(&shifted);
 }
 
 void
