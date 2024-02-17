@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+#include <X11/X.h>
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -65,11 +66,17 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 /* Require: rofi */
 static const char *dmenucmd[] = { "rofi", "-combi-modi", "drun,ssh", "-font", "hack 10", "-show", "combi", "-theme", "~/.config/rofi/config.rasi", "-show-icons", NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *volupcmd[] = { "/home/riicarus/scripts/dwm/vol_up.sh", NULL };	/* Require: pamixer */
+static const char *voldowncmd[] = { "/home/riicarus/scripts/dwm/vol_down.sh", NULL };	/* Require: pamixer */
+static const char *voltogglecmd[] = { "/home/riicarus/scripts/dwm/vol_tog.sh", NULL };	/* Require: pamixer */
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY, 		        		XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY, 		        		XK_F1, 	   spawn,          {.v = voltogglecmd } },
+	{ MODKEY, 		        		XK_F2,	   spawn,          {.v = voldowncmd } },
+	{ MODKEY, 		        		XK_F3, 	   spawn,          {.v = volupcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
