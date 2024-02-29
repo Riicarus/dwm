@@ -22,8 +22,8 @@ static const unsigned int baralpha  = 0xd0;
 static const unsigned int borderalpha  = OPAQUE;
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_lime,  col_moon_white },
+	[SchemeNorm] = { col_gray4, col_gray1, col_gray3 },
+	[SchemeSel]  = { col_gray4, col_gray1, col_moon_white },
 };
 
 static const unsigned int alphas[][3]      = {
@@ -33,6 +33,7 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
+// emoji: 🤔 😧 😡 👽 😓 🚀 😽 🔥 💧 🎵🎶🔊 🛜 🔅
 static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
 
 static const Rule rules[] = {
