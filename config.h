@@ -9,8 +9,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const int vertpad	    = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;	/* horizontal padding of bar */
-static const char *fonts[]          = { "Source Code Pro:size=14" };	/* Require: nerf-fonts-complete */
-static const char dmenufont[]       = "Source Code Pro:size=14";	/* Require: nerf-fonts-complete */
+static const char *fonts[]          = { "SourceCodePro-Regular:size=12", "WenQuanYi Micro Hei:size=12" };	/* Require: nerd-fonts-complete */
+static const char dmenufont[]       = "Sauce Code Pro:size=12";	/* Require: nerd-fonts-complete */
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -18,14 +18,21 @@ static const char col_gray4[]       = "#eeeeee";
 // static const char col_cyan[]        = "#005577";
 static const char col_lime[]        = "#2b333e";
 static const char col_moon_white[]  = "#eef7f2";
+static const unsigned int baralpha  = 0xd0;
+static const unsigned int borderalpha  = OPAQUE;
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_lime,  col_moon_white },
 };
 
+static const unsigned int alphas[][3]      = {
+    	/*               fg      bg        border*/
+    	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+};
+
 /* tagging */
-// static const char *tags[] = { "", "", "", "󱋊", "" };	/* Require: nerd-fonts-complete */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
 
 static const Rule rules[] = {
@@ -38,16 +45,16 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.6; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "",      tile },    /* first entry is default */	/* Require: nerf-fonts-complete */
-	{ "󱂬",      NULL },    /* no layout function means floating behavior */	/* Require: nerd-fonts-complete */
-	// { "[M]",      monocle },
+	/* symbol	arrange function */
+	{ "[T]",	tile },
+	{ "[F]", 	NULL },
+	{ "[M]",	monocle },
 };
 
 /* key definitions */
@@ -65,19 +72,20 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 /* Require: rofi */
-static const char *dmenucmd[] = { "rofi", "-combi-modi", "drun,ssh", "-font", "hack 10", "-show", "combi", "-theme", "~/.config/rofi/config.rasi", "-show-icons", NULL };
+static const char *dmenucmd[] = { "rofi", "-combi-modi", "drun,ssh", "-font", "hack 10", "-show", "combi", "-theme", "~/.config/rofi/config.rasi", "-show-icons", NULL };	/* Require: rofi & theme */
 static const char *termcmd[]  = { "st", NULL };
-static const char *volupcmd[] = { "/home/riicarus/scripts/dwm/vol_up.sh", NULL };	/* Require: pamixer */
-static const char *voldowncmd[] = { "/home/riicarus/scripts/dwm/vol_down.sh", NULL };	/* Require: pamixer */
-static const char *voltogglecmd[] = { "/home/riicarus/scripts/dwm/vol_tog.sh", NULL };	/* Require: pamixer */
+static const char *volupcmd[] = { "/home/riicarus/scripts/dwm/vol_up.sh", NULL };	/* Require: alsamixer */
+static const char *voldowncmd[] = { "/home/riicarus/scripts/dwm/vol_down.sh", NULL };	/* Require: alsamixer */
+static const char *voltogglecmd[] = { "/home/riicarus/scripts/dwm/vol_tog.sh", NULL };	/* Require: alsamixer */
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY, 		        		XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY, 		        		XK_F1, 	   spawn,          {.v = voltogglecmd } },
-	{ MODKEY, 		        		XK_F2,	   spawn,          {.v = voldowncmd } },
-	{ MODKEY, 		        		XK_F3, 	   spawn,          {.v = volupcmd } },
+	{ MODKEY|ControlMask, 		XK_p, 	   spawn,          SHCMD("flameshot gui") },
+	{ MODKEY, 		        XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY, 		        XK_F1, 	   spawn,          {.v = voltogglecmd } },
+	{ MODKEY, 		        XK_F2,	   spawn,          {.v = voldowncmd } },
+	{ MODKEY, 		        XK_F3, 	   spawn,          {.v = volupcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -88,16 +96,17 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,             			XK_q,      killclient,     {0} },
+	{ MODKEY,             		XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },	/* Require: patch-tagshift */
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,           			XK_comma,  shiftview,      {.i = -1 } },
-	{ MODKEY,           			XK_period, shiftview,      {.i = +1 } },
-	{ MODKEY|ShiftMask, 			XK_comma,  shifttag,       {.i = -1 } },
-	{ MODKEY|ShiftMask, 			XK_period, shifttag,       {.i = +1 } },
+	{ MODKEY,           		XK_comma,  shiftview,      {.i = -1 } },
+	{ MODKEY,           		XK_period, shiftview,      {.i = +1 } },
+	{ MODKEY|ShiftMask, 		XK_comma,  shifttag,       {.i = -1 } },
+	{ MODKEY|ShiftMask, 		XK_period, shifttag,       {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_comma,  tagmon,         {.i = -1 } },

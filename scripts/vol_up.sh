@@ -1,2 +1,2 @@
 #!/bin/bash
-pamixer -i 5
+amixer sset Master 5%+

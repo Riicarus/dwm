@@ -1,2 +1,2 @@
 #!/bin/bash
-pamixer -t
+amixer sset Master toggle
