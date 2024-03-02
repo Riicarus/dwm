@@ -33,7 +33,6 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-// emoji: 🤔 😧 😡 👽 😓 🚀 😽 🔥 💧 🎵🎶🔊 🛜 🔅
 static const char *tags[] = { "🐿", "🐮", "🦊", "🐸", "🦀", "🐣" };
 
 static const Rule rules[] = {
@@ -78,12 +77,15 @@ static const char *termcmd[]  = { "st", NULL };
 static const char *volupcmd[] = { "/home/riicarus/scripts/dwm/vol_up.sh", NULL };	/* Require: alsamixer */
 static const char *voldowncmd[] = { "/home/riicarus/scripts/dwm/vol_down.sh", NULL };	/* Require: alsamixer */
 static const char *voltogglecmd[] = { "/home/riicarus/scripts/dwm/vol_tog.sh", NULL };	/* Require: alsamixer */
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ControlMask, 		XK_p, 	   spawn,          SHCMD("flameshot gui") },
 	{ MODKEY, 		        XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY, 		        XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY, 		        XK_F1, 	   spawn,          {.v = voltogglecmd } },
 	{ MODKEY, 		        XK_F2,	   spawn,          {.v = voldowncmd } },
 	{ MODKEY, 		        XK_F3, 	   spawn,          {.v = volupcmd } },
