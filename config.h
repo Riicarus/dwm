@@ -9,7 +9,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const int vertpad	    = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;	/* horizontal padding of bar */
-static const char *fonts[]          = { "SourceCodePro-Regular:size=13", "WenQuanYi Micro Hei:size=13" };	/* Require: nerd-fonts-complete */
+static const char *fonts[]          = { "SourceCodePro-Regular:size=13", "WenQuanYi Micro Hei:size=13", "Noto Color Emoji:pixelsize=12:antialias=true:autohint=true" };	/* Require: nerd-fonts-complete */
 static const char dmenufont[]       = "Sauce Code Pro:size=12";	/* Require: nerd-fonts-complete */
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
